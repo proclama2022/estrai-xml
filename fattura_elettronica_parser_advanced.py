@@ -97,19 +97,35 @@ class InvoiceProcessor:
     def process_single(self, xml_path):
         """Elaborazione singolo file con recovery avanzato"""
         try:
-            # Parsing diretto del file con defusedxml
-            root = safe_parse(xml_path).getroot()
-            invoice_data = self.parse_xml(root)
-            normalized_data = self.normalize_data(invoice_data)
+            # Verifica esistenza file
+            if not os.path.exists(xml_path):
+                return self.handle_error(xml_path, 'file_not_found', 'File non trovato')
+                
+            # Verifica dimensione file
+            if os.path.getsize(xml_path) == 0:
+                return self.handle_error(xml_path, 'empty_file', 'File vuoto')
             
-            return {
-                'status': 'success',
-                'data': normalized_data,
-                'metrics': self.calculate_metrics(normalized_data)
-            }
+            # Parsing diretto del file con defusedxml
+            try:
+                root = safe_parse(xml_path).getroot()
+            except Exception as e:
+                return self.handle_error(xml_path, 'xml_parsing', f'Errore parsing XML: {str(e)}')
+                
+            try:
+                invoice_data = self.parse_xml(root)
+                normalized_data = self.normalize_data(invoice_data)
+                
+                return {
+                    'status': 'success',
+                    'data': normalized_data,
+                    'metrics': self.calculate_metrics(normalized_data)
+                }
+                
+            except Exception as e:
+                return self.handle_error(xml_path, 'data_processing', f'Errore elaborazione dati: {str(e)}')
             
         except Exception as e:
-            return self.handle_error(xml_path, 'processing', str(e))
+            return self.handle_error(xml_path, 'unexpected_error', f'Errore imprevisto: {str(e)}')
 
     def preprocess_xml(self, xml_path):
         """Correzioni automatiche pre-parsing"""
