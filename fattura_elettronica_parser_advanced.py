@@ -66,7 +66,7 @@ class InvoiceProcessor:
             'error_details': error_details
         }
 
-    def process_files(self, files, output_format='json'):
+    def process_files(self, files, output_format='json', output_base='output'):
         """Elaborazione parallela di file/directory/ZIP"""
         xml_files = []
         
