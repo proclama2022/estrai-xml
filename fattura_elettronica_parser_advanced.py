@@ -355,19 +355,18 @@ class InvoiceProcessor:
         logging.info(f"Metriche salvate in: {metrics_file}")
 
     def generate_error_report(self, failed_invoices, output_base='output'):
-        """Genera report dettagliato degli errori"""
+        """Genera report dettagliato degli errori in formato JSON"""
         if not failed_invoices:
             logging.info("Nessun errore riscontrato durante l'elaborazione.")
             return
 
-        error_file = f"{output_base}_errors.log"
-        with open(error_file, 'w', encoding='utf-8') as f:
-            for error_invoice in failed_invoices:
-                f.write(f"File: {error_invoice['file']}\n")
-                f.write(f"Tipo Errore: {error_invoice['error_type']}\n")
-                f.write(f"Dettagli: {error_invoice['error_details']}\n")
-                f.write("-" * 50 + "\n")
-        logging.warning(f"Report errori salvato in: {error_file}")
+        error_file = f"{output_base}_errors.json"
+        try:
+            with open(error_file, 'w', encoding='utf-8') as f:
+                json.dump(failed_invoices, f, indent=2, ensure_ascii=False)
+            logging.warning(f"Report errori JSON salvato in: {error_file}")
+        except Exception as e:
+            logging.error(f"Errore durante il salvataggio del report errori: {str(e)}")
 
     def calculate_metrics(self, invoice_data):
         """Calcola metriche di qualità dei dati estratti"""
