@@ -167,6 +167,10 @@ class InvoiceProcessor:
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance'
         }
         
+        # Funzione helper per ricerca elementi
+        def find_element(parent, tag):
+            return parent.find(tag, namespaces=ns_map) or parent.find(f'*[local-name()="{tag.split("}")[-1]}"]')
+        
         return {
             'header': self.parse_header(root, ns_map),
             'document': self.parse_document(root, ns_map),
@@ -177,14 +181,16 @@ class InvoiceProcessor:
 
     def parse_header(self, root, ns_map):
         """Estrazione dati intestazione"""
-        xpaths = {
-            'supplier': '//*[local-name()="FatturaElettronicaHeader"]/*[local-name()="CedentePrestatore"]',
-            'customer': '//*[local-name()="FatturaElettronicaHeader"]/*[local-name()="CessionarioCommittente"]'
-        }
-        
+        header = root.find('ns:FatturaElettronicaHeader', ns_map)
+        if header is None:
+            header = root.find('*[local-name()="FatturaElettronicaHeader"]')
+            
+        if header is None:
+            return {'supplier': {}, 'customer': {}}
+            
         return {
-            'supplier': self.extract_party_data(root, xpaths['supplier'], ns_map),
-            'customer': self.extract_party_data(root, xpaths['customer'], ns_map)
+            'supplier': self.extract_party_data(header, 'ns:CedentePrestatore', ns_map),
+            'customer': self.extract_party_data(header, 'ns:CessionarioCommittente', ns_map)
         }
 
     def extract_party_data(self, root, xpath, ns_map):
