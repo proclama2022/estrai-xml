@@ -169,16 +169,30 @@ class InvoiceProcessor:
         
         # Funzione helper per ricerca elementi
         def find_element(parent, tag):
-            logging.debug(f"Cercando elemento {tag} in {parent.tag}")
-            element = parent.find(tag, namespaces=ns_map)
-            if element is None:
-                logging.debug(f"Elemento {tag} non trovato con namespace, provo senza")
-                element = parent.find(f'*[local-name()="{tag.split("}")[-1]}"]')
-            if element is None:
-                logging.debug(f"Elemento {tag} non trovato")
-            else:
-                logging.debug(f"Trovato elemento {element.tag}")
-            return element
+            try:
+                logging.debug(f"Cercando elemento {tag} in {parent.tag}")
+                logging.debug(f"Namespace in uso: {ns_map}")
+                logging.debug(f"Contenuto parent: {ET.tostring(parent, encoding='unicode')[:200]}...")
+                
+                element = parent.find(tag, namespaces=ns_map)
+                if element is None:
+                    logging.debug(f"Elemento {tag} non trovato con namespace, provo senza")
+                    local_name = tag.split("}")[-1] if '}' in tag else tag
+                    xpath = f'*[local-name()="{local_name}"]'
+                    logging.debug(f"Tentativo con XPath: {xpath}")
+                    element = parent.find(xpath)
+                    
+                if element is None:
+                    logging.debug(f"Elemento {tag} non trovato")
+                else:
+                    logging.debug(f"Trovato elemento {element.tag}")
+                    logging.debug(f"Contenuto elemento: {ET.tostring(element, encoding='unicode')[:200]}...")
+                return element
+            except Exception as e:
+                logging.error(f"Errore durante la ricerca di {tag}: {str(e)}")
+                logging.error(f"Parent tag: {parent.tag}")
+                logging.error(f"Namespace map: {ns_map}")
+                raise
         
         return {
             'header': self.parse_header(root, ns_map),
