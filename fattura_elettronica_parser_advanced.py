@@ -37,7 +37,7 @@ CONFIG = {
 
 # Setup logging avanzato
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s.%(msecs)03d|%(levelname)s|%(process)d|%(module)s|%(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
     handlers=[
@@ -169,7 +169,16 @@ class InvoiceProcessor:
         
         # Funzione helper per ricerca elementi
         def find_element(parent, tag):
-            return parent.find(tag, namespaces=ns_map) or parent.find(f'*[local-name()="{tag.split("}")[-1]}"]')
+            logging.debug(f"Cercando elemento {tag} in {parent.tag}")
+            element = parent.find(tag, namespaces=ns_map)
+            if element is None:
+                logging.debug(f"Elemento {tag} non trovato con namespace, provo senza")
+                element = parent.find(f'*[local-name()="{tag.split("}")[-1]}"]')
+            if element is None:
+                logging.debug(f"Elemento {tag} non trovato")
+            else:
+                logging.debug(f"Trovato elemento {element.tag}")
+            return element
         
         return {
             'header': self.parse_header(root, ns_map),
