@@ -101,7 +101,8 @@ class InvoiceProcessor:
             xml_data = self.preprocess_xml(xml_path)
             
             # Parsing e normalizzazione
-            root = ET.fromstring(xml_data)
+            # Per defusedxml, dobbiamo usare il percorso del file direttamente
+            root = safe_parse(xml_path).getroot()
             invoice_data = self.parse_xml(root)
             normalized_data = self.normalize_data(invoice_data)
             
