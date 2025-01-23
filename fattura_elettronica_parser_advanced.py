@@ -178,9 +178,13 @@ class InvoiceProcessor:
                 if element is None:
                     logging.debug(f"Elemento {tag} non trovato con namespace, provo senza")
                     local_name = tag.split("}")[-1] if '}' in tag else tag
-                    xpath = f'*[local-name()="{local_name}"]'
-                    logging.debug(f"Tentativo con XPath: {xpath}")
-                    element = parent.find(xpath)
+                    # Ricerca manuale senza XPath problematico
+                    element = None
+                    for child in parent:
+                        if child.tag.split("}")[-1] == local_name:
+                            element = child
+                            break
+                    logging.debug(f"Ricerca manuale per {local_name}: {'trovato' if element else 'non trovato'}")
                     
                 if element is None:
                     logging.debug(f"Elemento {tag} non trovato")
