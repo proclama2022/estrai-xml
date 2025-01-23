@@ -160,16 +160,12 @@ class InvoiceProcessor:
 
     def parse_xml(self, root):
         """Parsing strutturato con fallback intelligente"""
-        # Rilevamento namespace alternativi
-        ns_map = {}
-        for prefix, uri in root.nsmap.items():
-            if 'agenziaentrate' in uri or 'fatturapa' in uri:
-                ns_key = prefix if prefix else 'ns'
-                ns_map[ns_key] = uri
-        
-        # Fallback per XML senza namespace dichiarato
-        if not ns_map:
-            ns_map = {'ns': 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2'}
+        # Namespace predefinito per FatturaPA
+        ns_map = {
+            'ns': 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
+            'ds': 'http://www.w3.org/2000/09/xmldsig#',
+            'xsi': 'http://www.w3.org/2001/XMLSchema-instance'
+        }
         
         return {
             'header': self.parse_header(root, ns_map),
