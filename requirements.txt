@@ -1,4 +1,6 @@
 streamlit
-lxml
-pandas
-PyYAML
+    lxml
+    pandas
+    PyYAML
+
+    # Forza reinstallazione dipendenze su Streamlit Cloud
