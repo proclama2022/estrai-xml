@@ -1,0 +1,92 @@
+<ns2:FatturaElettronica xmlns:ns2="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" versione="FPR12">
+   <FatturaElettronicaHeader>
+      <DatiTrasmissione><IdTrasmittente><IdPaese>IT</IdPaese><IdCodice>08973230967</IdCodice></IdTrasmittente><ProgressivoInvio>29YZX</ProgressivoInvio><FormatoTrasmissione>FPR12</FormatoTrasmissione><CodiceDestinatario>M5UXCR1</CodiceDestinatario><PECDestinatario>creationdose@pec.impresecatania.it</PECDestinatario></DatiTrasmissione>
+      <CedentePrestatore>
+         <DatiAnagrafici>
+            <IdFiscaleIVA>
+               <IdPaese>IT</IdPaese>
+               <IdCodice>08973230967</IdCodice>
+            </IdFiscaleIVA>
+            <Anagrafica>
+               <Denominazione>Amazon EU S.à r.l., Succursale Italiana</Denominazione>
+            </Anagrafica>
+            <RegimeFiscale>RF01</RegimeFiscale>
+         </DatiAnagrafici>
+         <Sede>
+            <Indirizzo>38 avenue John F. Kennedy</Indirizzo>
+            <CAP>01855</CAP>
+            <Comune>Luxemburgo</Comune>
+            <Nazione>LU</Nazione>
+         </Sede>
+         <StabileOrganizzazione>
+            <Indirizzo>Viale Monte Grappa 3/5</Indirizzo>
+            <CAP>20124</CAP>
+            <Comune>Milano</Comune>
+            <Nazione>IT</Nazione>
+         </StabileOrganizzazione>
+      </CedentePrestatore>
+      <CessionarioCommittente>
+         <DatiAnagrafici>
+            <IdFiscaleIVA>
+               <IdPaese>IT</IdPaese>
+               <IdCodice>05538860874</IdCodice>
+            </IdFiscaleIVA>
+            <Anagrafica>
+               <Denominazione>CreationDose Srl</Denominazione>
+            </Anagrafica>
+         </DatiAnagrafici>
+         <Sede>
+            <Indirizzo>Via G. Vagliasindi, 70</Indirizzo>
+            <CAP>95126</CAP>
+            <Comune>Catania</Comune>
+            <Nazione>IT</Nazione>
+         </Sede>
+      </CessionarioCommittente>
+   </FatturaElettronicaHeader>
+   <FatturaElettronicaBody>
+      <DatiGenerali>
+         <DatiGeneraliDocumento>
+            <TipoDocumento>TD01</TipoDocumento>
+            <Divisa>EUR</Divisa>
+            <Data>2020-09-24</Data>
+            <Numero>IT20-AEUI-5223490</Numero>
+            <ImportoTotaleDocumento>27.73</ImportoTotaleDocumento>
+            <Arrotondamento>0.00</Arrotondamento>
+         </DatiGeneraliDocumento>
+         <DatiContratto>
+            <RiferimentoNumeroLinea>1</RiferimentoNumeroLinea>
+            <IdDocumento>402-7084489-6565935</IdDocumento>
+            <Data>2020-09-24</Data>
+         </DatiContratto>
+         <FatturaPrincipale>
+            <NumeroFatturaPrincipale>IT20-AEUI-5223490</NumeroFatturaPrincipale>
+            <DataFatturaPrincipale>2020-09-24</DataFatturaPrincipale>
+         </FatturaPrincipale>
+      </DatiGenerali>
+      <DatiBeniServizi>
+         <DettaglioLinee>
+            <NumeroLinea>1</NumeroLinea>
+            <Descrizione>AmazonBasics Carta da stampa multiuso A4 80gsm, 5x500 fogli, bianco</Descrizione>
+            <Quantita>1.00</Quantita>
+            <DataInizioPeriodo>2020-09-24</DataInizioPeriodo>
+            <DataFinePeriodo>2020-09-24</DataFinePeriodo>
+            <PrezzoUnitario>22.73</PrezzoUnitario>
+            <PrezzoTotale>22.73</PrezzoTotale>
+            <AliquotaIVA>22.00</AliquotaIVA>
+         </DettaglioLinee>
+         <DatiRiepilogo>
+            <AliquotaIVA>22.00</AliquotaIVA>
+            <Arrotondamento>-0.00</Arrotondamento>
+            <ImponibileImporto>22.73</ImponibileImporto>
+            <Imposta>5.00</Imposta>
+         </DatiRiepilogo>
+      </DatiBeniServizi>
+      <DatiPagamento>
+         <CondizioniPagamento>TP02</CondizioniPagamento>
+         <DettaglioPagamento>
+            <ModalitaPagamento>MP08</ModalitaPagamento>
+            <ImportoPagamento>27.73</ImportoPagamento>
+         </DettaglioPagamento>
+      </DatiPagamento>
+   </FatturaElettronicaBody>
+</ns2:FatturaElettronica>

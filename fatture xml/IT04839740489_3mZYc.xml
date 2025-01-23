@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" versione="FPR12">
+<FatturaElettronicaHeader>
+  <DatiTrasmissione>
+    <IdTrasmittente>
+      <IdPaese>IT</IdPaese>
+      <IdCodice>04839740489</IdCodice>
+    </IdTrasmittente>
+    <ProgressivoInvio>0006EFB09D</ProgressivoInvio>
+    <FormatoTrasmissione>FPR12</FormatoTrasmissione>
+    <CodiceDestinatario>0000000</CodiceDestinatario>
+    <PECDestinatario>CREATIONDOSE@PEC.IMPRESECATANIA.IT</PECDestinatario>
+  </DatiTrasmissione>
+  <CedentePrestatore>
+    <DatiAnagrafici>
+      <IdFiscaleIVA>
+        <IdPaese>IT</IdPaese>
+        <IdCodice>13029381004</IdCodice>
+      </IdFiscaleIVA>
+      <Anagrafica>
+        <Denominazione>Alitalia - S.A.I. S.p.A. in amministrazione straordinaria</Denominazione>
+      </Anagrafica>
+      <RegimeFiscale>RF01</RegimeFiscale>
+    </DatiAnagrafici>
+    <Sede>
+      <Indirizzo>Via A. Nassetti - PAL ALFA</Indirizzo>
+      <CAP>00054</CAP>
+      <Comune>Fiumicino</Comune>
+      <Provincia>RM</Provincia>
+      <Nazione>IT</Nazione>
+    </Sede>
+    <IscrizioneREA>
+      <Ufficio>RM</Ufficio>
+      <NumeroREA>1418603</NumeroREA>
+      <CapitaleSociale>103105126.99</CapitaleSociale>
+      <StatoLiquidazione>LN</StatoLiquidazione>
+    </IscrizioneREA>
+  </CedentePrestatore>
+  <CessionarioCommittente>
+    <DatiAnagrafici>
+      <IdFiscaleIVA>
+        <IdPaese>IT</IdPaese>
+        <IdCodice>05538860874</IdCodice>
+      </IdFiscaleIVA>
+      <Anagrafica>
+        <Denominazione>CREATIONDOSE SRL </Denominazione>
+      </Anagrafica>
+    </DatiAnagrafici>
+    <Sede>
+      <Indirizzo>VIA GUSTAVO VAGLIASINDI 70</Indirizzo>
+      <CAP>95126</CAP>
+      <Comune>CATANIA</Comune>
+      <Nazione>IT</Nazione>
+    </Sede>
+  </CessionarioCommittente>
+</FatturaElettronicaHeader><FatturaElettronicaBody>
+  <DatiGenerali>
+    <DatiGeneraliDocumento>
+      <TipoDocumento>TD01</TipoDocumento>
+      <Divisa>EUR</Divisa>
+      <Data>2020-12-12</Data>
+      <Numero>2206172335</Numero>
+      <ImportoTotaleDocumento>85.84 </ImportoTotaleDocumento>
+      <Causale>Ben.volo ALESSANDRO LA ROSA</Causale>
+    </DatiGeneraliDocumento>
+  </DatiGenerali>
+  <DatiBeniServizi>
+    <DettaglioLinee>
+      <NumeroLinea>1</NumeroLinea>
+      <Descrizione> N  TICKET 0552351719590 Tratta LIN\CTA-CTA\LIN TARIFFA Data Vendita 23/11/2020</Descrizione>
+      <PrezzoUnitario>14.55</PrezzoUnitario>
+      <PrezzoTotale>14.55</PrezzoTotale>
+      <AliquotaIVA>10.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DettaglioLinee>
+      <NumeroLinea>2</NumeroLinea>
+      <Descrizione> CRISIS/FUEL SURCHARGE</Descrizione>
+      <PrezzoUnitario>5.36</PrezzoUnitario>
+      <PrezzoTotale>5.36</PrezzoTotale>
+      <AliquotaIVA>10.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DettaglioLinee>
+      <NumeroLinea>3</NumeroLinea>
+      <Descrizione> CRISIS/FUEL SURCHARGE</Descrizione>
+      <PrezzoUnitario>14.55</PrezzoUnitario>
+      <PrezzoTotale>14.55</PrezzoTotale>
+      <AliquotaIVA>10.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DettaglioLinee>
+      <NumeroLinea>4</NumeroLinea>
+      <Descrizione> TASSE E SUPPL.</Descrizione>
+      <PrezzoUnitario>43.58</PrezzoUnitario>
+      <PrezzoTotale>43.58</PrezzoTotale>
+      <AliquotaIVA>10.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DatiRiepilogo>
+      <AliquotaIVA>10.00</AliquotaIVA>
+      <ImponibileImporto>78.04</ImponibileImporto>
+      <Imposta>7.80</Imposta>
+      <RiferimentoNormativo>FT ATT.     IVA 10%</RiferimentoNormativo>
+    </DatiRiepilogo>
+  </DatiBeniServizi>
+  <DatiPagamento>
+    <CondizioniPagamento>TP02</CondizioniPagamento>
+    <DettaglioPagamento>
+      <ModalitaPagamento>MP05</ModalitaPagamento>
+      <DataRiferimentoTerminiPagamento>2020-11-23</DataRiferimentoTerminiPagamento>
+      <DataScadenzaPagamento>2020-11-23</DataScadenzaPagamento>
+      <ImportoPagamento>85.84 </ImportoPagamento>
+      <IstitutoFinanziario>Intesa Sanpaolo S.p.A.</IstitutoFinanziario>
+      <IBAN>IT30H0306949633100000007825</IBAN>
+      <BIC>BCITITMM</BIC>
+    </DettaglioPagamento>
+  </DatiPagamento>
+</FatturaElettronicaBody>
+</p:FatturaElettronica>

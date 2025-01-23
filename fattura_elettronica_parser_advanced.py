@@ -9,8 +9,7 @@ import zipfile
 import tempfile
 from datetime import datetime
 from collections import defaultdict
-from defusedxml.ElementTree import parse as safe_parse
-import xml.etree.ElementTree as ET
+from defusedxml import ElementTree
 import pandas as pd
 import yaml
 
@@ -25,7 +24,7 @@ CONFIG = {
     'error_recovery': {
         'common_issues': {
             'encoding': ['iso-8859-15', 'windows-1252'],
-            'malformed_tags': ['&', '<']
+            'malformed_tags': ['&amp;', '&apos;']
         }
     },
     'data_normalization': {
@@ -53,6 +52,10 @@ class InvoiceProcessor:
         self.config = config or CONFIG
         self.schema_cache = {}
         self.error_stats = defaultdict(int)
+        self.ns = {
+            'p': 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
+            'ds': 'http://www.w3.org/2000/09/xmldsig#'
+        }
 
     def handle_error(self, xml_path, error_type, error_details):
         """Gestione centralizzata degli errori"""
@@ -90,7 +93,7 @@ class InvoiceProcessor:
         valid_invoices = [r for r in results if r['status'] == 'success']
         failed_invoices = [r for r in results if r['status'] == 'error']
         
-        self.generate_output(valid_invoices, output_format)
+        self.generate_output(valid_invoices, output_format, output_base)
         self.generate_error_report(failed_invoices, output_base)
         return len(valid_invoices), len(failed_invoices)
 
@@ -107,11 +110,8 @@ class InvoiceProcessor:
             
             # Parsing diretto del file con defusedxml
             try:
-                root = safe_parse(xml_path).getroot()
-            except Exception as e:
-                return self.handle_error(xml_path, 'xml_parsing', f'Errore parsing XML: {str(e)}')
-                
-            try:
+                tree = ElementTree.parse(xml_path)
+                root = tree.getroot()
                 invoice_data = self.parse_xml(root)
                 normalized_data = self.normalize_data(invoice_data)
                 
@@ -122,161 +122,89 @@ class InvoiceProcessor:
                 }
                 
             except Exception as e:
-                return self.handle_error(xml_path, 'data_processing', f'Errore elaborazione dati: {str(e)}')
+                return self.handle_error(xml_path, 'xml_parsing', f'Errore parsing XML: {str(e)}')
             
         except Exception as e:
             return self.handle_error(xml_path, 'unexpected_error', f'Errore imprevisto: {str(e)}')
 
-    def preprocess_xml(self, xml_path):
-        """Correzioni automatiche pre-parsing"""
-        try:
-            with open(xml_path, 'rb') as f:
-                raw_data = f.read()
-                
-            # Rimuovi BOM se presente
-            if raw_data.startswith(b'\xef\xbb\xbf'):
-                raw_data = raw_data[3:]
-                
-            # Correzione encoding
-            for encoding in self.config['error_recovery']['common_issues']['encoding']:
-                try:
-                    return raw_data.decode(encoding).encode('utf-8')
-                except UnicodeDecodeError:
-                    continue
-                    
-            # Correzione caratteri speciali
-            corrected = raw_data
-            for bad, good in self.config['error_recovery']['common_issues']['malformed_tags']:
-                corrected = corrected.replace(bad.encode(), good.encode())
-                
-            return corrected
-            
-        except Exception as e:
-            return self.handle_error(xml_path, 'preprocessing_io', str(e))
-
-    def validate_xml(self, xml_data):
-        """Validazione XML"""
-        return []  # Validazione temporaneamente disabilitata
-
     def parse_xml(self, root):
         """Parsing strutturato con fallback intelligente"""
-        # Namespace predefinito per FatturaPA
-        ns_map = {
-            'ns': 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
-            'ds': 'http://www.w3.org/2000/09/xmldsig#',
-            'xsi': 'http://www.w3.org/2001/XMLSchema-instance'
-        }
-        
-        # Funzione helper per ricerca elementi
-        def find_element(parent, tag):
-            try:
-                logging.debug(f"Cercando elemento {tag} in {parent.tag}")
-                logging.debug(f"Namespace in uso: {ns_map}")
-                logging.debug(f"Contenuto parent: {ET.tostring(parent, encoding='unicode')[:200]}...")
-                
-                element = parent.find(tag, namespaces=ns_map)
-                if element is None:
-                    logging.debug(f"Elemento {tag} non trovato con namespace, provo senza")
-                    local_name = tag.split("}")[-1] if '}' in tag else tag
-                    # Ricerca manuale senza XPath problematico
-                    element = None
-                    for child in parent:
-                        if child.tag.split("}")[-1] == local_name:
-                            element = child
-                            break
-                    logging.debug(f"Ricerca manuale per {local_name}: {'trovato' if element else 'non trovato'}")
-                    
-                if element is None:
-                    logging.debug(f"Elemento {tag} non trovato")
-                else:
-                    logging.debug(f"Trovato elemento {element.tag}")
-                    logging.debug(f"Contenuto elemento: {ET.tostring(element, encoding='unicode')[:200]}...")
-                return element
-            except Exception as e:
-                logging.error(f"Errore durante la ricerca di {tag}: {str(e)}")
-                logging.error(f"Parent tag: {parent.tag}")
-                logging.error(f"Namespace map: {ns_map}")
-                raise
-        
-        return {
-            'header': self.parse_header(root, ns_map),
-            'document': self.parse_document(root, ns_map),
-            'line_items': self.parse_line_items(root, ns_map),
-            'payment': self.parse_payment(root, ns_map),
-            'tax': self.parse_tax(root, ns_map)
-        }
-
-    def parse_header(self, root, ns_map):
-        """Estrazione dati intestazione"""
-        header = root.find('ns:FatturaElettronicaHeader', ns_map)
-        if header is None:
-            header = root.find('*[local-name()="FatturaElettronicaHeader"]')
+        try:
+            header = self.parse_header(root)
+            document = self.parse_document(root)
+            line_items = self.parse_line_items(root)
             
+            return {
+                'header': header,
+                'document': document,
+                'line_items': line_items,
+                'payment': {},
+                'tax': {}
+            }
+        except Exception as e:
+            logging.error(f"Errore durante il parsing XML: {str(e)}")
+            raise
+
+    def parse_header(self, root):
+        """Estrazione dati intestazione"""
+        header = root.find(".//FatturaElettronicaHeader")
         if header is None:
             return {'supplier': {}, 'customer': {}}
             
         return {
-            'supplier': self.extract_party_data(header, 'ns:CedentePrestatore', ns_map),
-            'customer': self.extract_party_data(header, 'ns:CessionarioCommittente', ns_map)
+            'supplier': self.extract_party_data(header, ".//CedentePrestatore"),
+            'customer': self.extract_party_data(header, ".//CessionarioCommittente")
         }
 
-    def extract_party_data(self, root, xpath, ns_map):
+    def extract_party_data(self, root, xpath):
         """Estrazione dati anagrafici generici"""
-        party = root.findall(xpath)
-        if not party:
+        party = root.find(xpath)
+        if party is None:
             return {}
             
-        party = party[0]
         return {
-            'name': self.xpath_text(party, './/*[local-name()="Anagrafica"]/*[local-name()="Denominazione"]', ns_map),
-            'vat': self.xpath_text(party, './/*[local-name()="IdFiscaleIVA"]/*[local-name()="IdCodice"]', ns_map),
+            'name': self.xpath_text(party, ".//Denominazione"),
+            'vat': self.xpath_text(party, ".//IdFiscaleIVA/IdCodice"),
             'address': {
-                'street': self.xpath_text(party, './/*[local-name()="Sede"]/*[local-name()="Indirizzo"]', ns_map),
-                'zip': self.xpath_text(party, './/*[local-name()="Sede"]/*[local-name()="CAP"]', ns_map),
-                'city': self.xpath_text(party, './/*[local-name()="Sede"]/*[local-name()="Comune"]', ns_map),
-                'country': self.xpath_text(party, './/*[local-name()="Sede"]/*[local-name()="Nazione"]', ns_map)
+                'street': self.xpath_text(party, ".//Sede/Indirizzo"),
+                'zip': self.xpath_text(party, ".//Sede/CAP"),
+                'city': self.xpath_text(party, ".//Sede/Comune"),
+                'country': self.xpath_text(party, ".//Sede/Nazione")
             }
         }
 
-    def parse_document(self, root, ns_map):
+    def parse_document(self, root):
         """Estrazione dati documento principale"""
         return {
-            'type': self.xpath_text(root, '//*[local-name()="DatiGeneraliDocumento"]/*[local-name()="TipoDocumento"]', ns_map),
-            'number': self.xpath_text(root, '//*[local-name()="DatiGeneraliDocumento"]/*[local-name()="Numero"]', ns_map),
-            'date': self.parse_date(self.xpath_text(root, '//*[local-name()="DatiGeneraliDocumento"]/*[local-name()="Data"]', ns_map)),
-            'currency': self.xpath_text(root, '//*[local-name()="DatiGeneraliDocumento"]/*[local-name()="Divisa"]', ns_map),
-            'total': self.parse_float(self.xpath_text(root, '//*[local-name()="DatiGeneraliDocumento"]/*[local-name()="ImportoTotaleDocumento"]', ns_map))
+            'type': self.xpath_text(root, ".//DatiGeneraliDocumento/TipoDocumento"),
+            'number': self.xpath_text(root, ".//DatiGeneraliDocumento/Numero"),
+            'date': self.parse_date(self.xpath_text(root, ".//DatiGeneraliDocumento/Data")),
+            'currency': self.xpath_text(root, ".//DatiGeneraliDocumento/Divisa"),
+            'total': self.parse_float(self.xpath_text(root, ".//DatiGeneraliDocumento/ImportoTotaleDocumento"))
         }
 
-    def parse_line_items(self, root, ns_map):
+    def parse_line_items(self, root):
         """Estrazione righe dettaglio"""
-        return [self.parse_line(line, ns_map) 
-                for line in root.findall('//*[local-name()="FatturaElettronicaBody"]/*[local-name()="DatiBeniServizi"]/*[local-name()="DettaglioLinee"]')]
+        lines = root.findall(".//DettaglioLinee")
+        return [self.parse_line(line) for line in lines]
 
-    def parse_line(self, line, ns_map):
+    def parse_line(self, line):
         """Parsing singola riga"""
         return {
-            'line_number': self.parse_int(self.xpath_text(line, './/*[local-name()="NumeroLinea"]', ns_map)),
-            'description': self.xpath_text(line, './/*[local-name()="Descrizione"]', ns_map),
-            'quantity': self.parse_float(self.xpath_text(line, './/*[local-name()="Quantita"]', ns_map)),
-            'price': self.parse_float(self.xpath_text(line, './/*[local-name()="PrezzoUnitario"]', ns_map)),
-            'total': self.parse_float(self.xpath_text(line, './/*[local-name()="PrezzoTotale"]', ns_map)),
-            'vat_rate': self.parse_float(self.xpath_text(line, './/*[local-name()="AliquotaIVA"]', ns_map))
+            'line_number': self.parse_int(self.xpath_text(line, ".//NumeroLinea")),
+            'description': self.xpath_text(line, ".//Descrizione"),
+            'quantity': self.parse_float(self.xpath_text(line, ".//Quantita")),
+            'price': self.parse_float(self.xpath_text(line, ".//PrezzoUnitario")),
+            'total': self.parse_float(self.xpath_text(line, ".//PrezzoTotale")),
+            'vat_rate': self.parse_float(self.xpath_text(line, ".//AliquotaIVA"))
         }
 
-    def parse_payment(self, root, ns_map):
-        """Estrazione dati pagamento"""
-        return {}
-
-    def parse_tax(self, root, ns_map):
-        """Estrazione dati riepilogo IVA"""
-        return {}
-
-    def xpath_text(self, element, xpath, ns_map):
-        """Estrazione testo da elemento XML via XPath con namespace"""
+    def xpath_text(self, element, xpath):
+        """Estrazione testo da elemento XML"""
         try:
-            return element.find(xpath).text.strip()
-        except (IndexError, AttributeError):
+            found = element.find(xpath)
+            return found.text.strip() if found is not None and found.text else ''
+        except (AttributeError, TypeError):
             return ''
 
     def parse_float(self, value):
@@ -366,6 +294,7 @@ class InvoiceProcessor:
         if not invoices:
             logging.warning("Nessuna fattura valida da salvare.")
             return
+
         if output_format == 'json':
             output_file = f"{output_base}.json"
             with open(output_file, 'w', encoding='utf-8') as f:
@@ -384,18 +313,19 @@ class InvoiceProcessor:
         logging.info(f"Metriche salvate in: {metrics_file}")
 
     def generate_error_report(self, failed_invoices, output_base='output'):
-        """Genera report dettagliato degli errori in formato JSON"""
+        """Genera report dettagliato degli errori"""
         if not failed_invoices:
             logging.info("Nessun errore riscontrato durante l'elaborazione.")
             return
 
-        error_file = f"{output_base}_errors.json"
-        try:
-            with open(error_file, 'w', encoding='utf-8') as f:
-                json.dump(failed_invoices, f, indent=2, ensure_ascii=False)
-            logging.warning(f"Report errori JSON salvato in: {error_file}")
-        except Exception as e:
-            logging.error(f"Errore durante il salvataggio del report errori: {str(e)}")
+        error_file = f"{output_base}_errors.log"
+        with open(error_file, 'w', encoding='utf-8') as f:
+            for error_invoice in failed_invoices:
+                f.write(f"File: {error_invoice['file']}\n")
+                f.write(f"Tipo Errore: {error_invoice['error_type']}\n")
+                f.write(f"Dettagli: {error_invoice['error_details']}\n")
+                f.write("-" * 50 + "\n")
+        logging.warning(f"Report errori salvato in: {error_file}")
 
     def calculate_metrics(self, invoice_data):
         """Calcola metriche di qualità dei dati estratti"""
@@ -425,7 +355,7 @@ def main():
     args = parser.parse_args()
     
     processor = InvoiceProcessor()
-    valid, errors = processor.process_files(args.input, args.format)
+    valid, errors = processor.process_files(args.input, args.format, args.output)
     
     logging.info(f"Elaborazione completata: {valid} successi, {errors} errori")
 

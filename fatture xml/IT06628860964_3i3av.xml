@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="fatturapa_v1.2.xsl"?>
+<FatturaElettronica xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" versione="FPR12" xmlns="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2">
+  <FatturaElettronicaHeader xmlns="">
+    <DatiTrasmissione>
+<IdTrasmittente>
+<IdPaese>IT</IdPaese>
+<IdCodice>06628860964</IdCodice>
+</IdTrasmittente>
+<ProgressivoInvio>1037530503</ProgressivoInvio>
+<FormatoTrasmissione>FPR12</FormatoTrasmissione>
+<CodiceDestinatario>M5UXCR1</CodiceDestinatario>
+</DatiTrasmissione>
+    <CedentePrestatore>
+      <DatiAnagrafici>
+        <IdFiscaleIVA>
+          <IdPaese>IT</IdPaese>
+          <IdCodice>08387680963</IdCodice>
+        </IdFiscaleIVA>
+        <CodiceFiscale>08387680963</CodiceFiscale>
+        <Anagrafica>
+          <Denominazione>OFFICINA ENOGASTRONOMICA SRL</Denominazione>
+        </Anagrafica>
+        <RegimeFiscale>RF01</RegimeFiscale>
+      </DatiAnagrafici>
+      <Sede>
+        <Indirizzo>VIA BERGOGNONE 16</Indirizzo>
+        <CAP>20144</CAP>
+        <Comune>MILANO</Comune>
+        <Provincia>MI</Provincia>
+        <Nazione>IT</Nazione>
+      </Sede>
+      <Contatti />
+    </CedentePrestatore>
+    <CessionarioCommittente>
+      <DatiAnagrafici>
+        <IdFiscaleIVA>
+          <IdPaese>IT</IdPaese>
+          <IdCodice>05538860874</IdCodice>
+        </IdFiscaleIVA>
+        <CodiceFiscale>05538860874</CodiceFiscale>
+        <Anagrafica>
+          <Denominazione>CREATIONDOSE SRL</Denominazione>
+        </Anagrafica>
+      </DatiAnagrafici>
+      <Sede>
+        <Indirizzo>VIA GUSTAVO VAGLIASINDI 70</Indirizzo>
+        <CAP>95126</CAP>
+        <Comune>CATANIA</Comune>
+        <Provincia>CT</Provincia>
+        <Nazione>IT</Nazione>
+      </Sede>
+    </CessionarioCommittente><TerzoIntermediarioOSoggettoEmittente>
+<DatiAnagrafici>
+<IdFiscaleIVA>
+<IdPaese>IT</IdPaese>
+<IdCodice>06628860964</IdCodice>
+</IdFiscaleIVA>
+<CodiceFiscale>06628860964</CodiceFiscale>
+<Anagrafica>
+<Denominazione>PA DIGITALE S.P.A.</Denominazione>
+</Anagrafica>
+</DatiAnagrafici>
+</TerzoIntermediarioOSoggettoEmittente><SoggettoEmittente>TZ</SoggettoEmittente>
+  </FatturaElettronicaHeader>
+  <FatturaElettronicaBody xmlns="">
+    <DatiGenerali>
+      <DatiGeneraliDocumento>
+        <TipoDocumento>TD01</TipoDocumento>
+        <Divisa>EUR</Divisa>
+        <Data>2020-08-19</Data>
+        <Numero>716</Numero>
+        <ImportoTotaleDocumento>44.00</ImportoTotaleDocumento>
+      </DatiGeneraliDocumento>
+    </DatiGenerali>
+    <DatiBeniServizi>
+      <DettaglioLinee>
+        <NumeroLinea>1</NumeroLinea>
+        <Descrizione>COPERTO</Descrizione>
+        <Quantita>2.00</Quantita>
+        <PrezzoUnitario>2.27500000</PrezzoUnitario>
+        <PrezzoTotale>4.55</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>2</NumeroLinea>
+        <Descrizione>ACQUA GAS</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>1.82000000</PrezzoUnitario>
+        <PrezzoTotale>1.82</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>3</NumeroLinea>
+        <Descrizione>COCA COLA</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>3.64000000</PrezzoUnitario>
+        <PrezzoTotale>3.64</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>4</NumeroLinea>
+        <Descrizione>COCA ZERO</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>3.64000000</PrezzoUnitario>
+        <PrezzoTotale>3.64</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>5</NumeroLinea>
+        <Descrizione>PATATINE FRITTE</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>5.45000000</PrezzoUnitario>
+        <PrezzoTotale>5.45</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>6</NumeroLinea>
+        <Descrizione>MARGHERITA</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>7.27000000</PrezzoUnitario>
+        <PrezzoTotale>7.27</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>7</NumeroLinea>
+        <Descrizione>PROSCIUTTO</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>11.82000000</PrezzoUnitario>
+        <PrezzoTotale>11.82</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>8</NumeroLinea>
+        <Descrizione>CAFFE'</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>1.82000000</PrezzoUnitario>
+        <PrezzoTotale>1.82</PrezzoTotale>
+        <AliquotaIVA>10.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DatiRiepilogo>
+        <AliquotaIVA>10.00</AliquotaIVA>
+        <Arrotondamento>-0.01</Arrotondamento>
+        <ImponibileImporto>40.00</ImponibileImporto>
+        <Imposta>4.00</Imposta>
+        <EsigibilitaIVA>I</EsigibilitaIVA>
+      </DatiRiepilogo>
+    </DatiBeniServizi>
+  </FatturaElettronicaBody>
+</FatturaElettronica>

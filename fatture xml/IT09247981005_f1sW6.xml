@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><ns3:FatturaElettronica versione="FPR12" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2">
+    <FatturaElettronicaHeader>
+        <DatiTrasmissione>
+            <IdTrasmittente>
+                <IdPaese>IT</IdPaese>
+                <IdCodice>11325150156</IdCodice>
+            </IdTrasmittente>
+            <ProgressivoInvio>NT00441895</ProgressivoInvio>
+            <FormatoTrasmissione>FPR12</FormatoTrasmissione>
+            <CodiceDestinatario>0000000</CodiceDestinatario>
+            <ContattiTrasmittente/>
+            <PECDestinatario>cubbit@pec.it</PECDestinatario>
+        </DatiTrasmissione>
+        <CedentePrestatore>
+            <DatiAnagrafici>
+                <IdFiscaleIVA>
+                    <IdPaese>IT</IdPaese>
+                    <IdCodice>09247981005</IdCodice>
+                </IdFiscaleIVA>
+                <CodiceFiscale>09247981005</CodiceFiscale>
+                <Anagrafica>
+                    <Denominazione>Italo - Nuovo Trasporto Viaggiatori S.p.A.</Denominazione>
+                </Anagrafica>
+                <RegimeFiscale>RF01</RegimeFiscale>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>Viale del Policlinico n. 149/B</Indirizzo>
+                <CAP>00161</CAP>
+                <Comune>Roma</Comune>
+                <Provincia>RM</Provincia>
+                <Nazione>IT</Nazione>
+            </Sede>
+            <IscrizioneREA>
+                <Ufficio>RM</Ufficio>
+                <NumeroREA>1150652</NumeroREA>
+                <CapitaleSociale>60017725.00</CapitaleSociale>
+                <StatoLiquidazione>LN</StatoLiquidazione>
+            </IscrizioneREA>
+        </CedentePrestatore>
+        <CessionarioCommittente>
+            <DatiAnagrafici>
+                <IdFiscaleIVA>
+                    <IdPaese>IT</IdPaese>
+                    <IdCodice>03562001200</IdCodice>
+                </IdFiscaleIVA>
+                <CodiceFiscale>03562001200</CodiceFiscale>
+                <Anagrafica>
+                    <Denominazione>Cubbit srl</Denominazione>
+                </Anagrafica>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>VIA DELLA ZECCA,1</Indirizzo>
+                <CAP>40121</CAP>
+                <Comune>BOLOGNA</Comune>
+                <Provincia>BO</Provincia>
+                <Nazione>IT</Nazione>
+            </Sede>
+        </CessionarioCommittente>
+    </FatturaElettronicaHeader>
+    <FatturaElettronicaBody>
+        <DatiGenerali>
+            <DatiGeneraliDocumento>
+                <TipoDocumento>TD01</TipoDocumento>
+                <Divisa>EUR</Divisa>
+                <Data>2019-04-08</Data>
+                <Numero>201990205033</Numero>
+                <ImportoTotaleDocumento>79.80</ImportoTotaleDocumento>
+            </DatiGeneraliDocumento>
+            <DatiOrdineAcquisto>
+                <IdDocumento>N.A.</IdDocumento>
+            </DatiOrdineAcquisto>
+        </DatiGenerali>
+        <DatiBeniServizi>
+            <DettaglioLinee>
+                <NumeroLinea>1</NumeroLinea>
+                <Descrizione>HDVLHK - Bologna - Milano Centrale</Descrizione>
+                <PrezzoUnitario>72.55</PrezzoUnitario>
+                <PrezzoTotale>72.55</PrezzoTotale>
+                <AliquotaIVA>10.00</AliquotaIVA>
+            </DettaglioLinee>
+            <DatiRiepilogo>
+                <AliquotaIVA>10.00</AliquotaIVA>
+                <Arrotondamento>0.05</Arrotondamento>
+                <ImponibileImporto>72.50</ImponibileImporto>
+                <Imposta>7.25</Imposta>
+                <RiferimentoNormativo>Vendite Corrispett. 10%</RiferimentoNormativo>
+            </DatiRiepilogo>
+        </DatiBeniServizi>
+    </FatturaElettronicaBody>
+</ns3:FatturaElettronica>

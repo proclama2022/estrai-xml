@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" versione="FPR12">
+<FatturaElettronicaHeader>
+  <DatiTrasmissione>
+    <IdTrasmittente>
+      <IdPaese>IT</IdPaese>
+      <IdCodice>04839740489</IdCodice>
+    </IdTrasmittente>
+    <ProgressivoInvio>00063722E1</ProgressivoInvio>
+    <FormatoTrasmissione>FPR12</FormatoTrasmissione>
+    <CodiceDestinatario>M5UXCR1</CodiceDestinatario>
+  </DatiTrasmissione>
+  <CedentePrestatore>
+    <DatiAnagrafici>
+      <IdFiscaleIVA>
+        <IdPaese>IT</IdPaese>
+        <IdCodice>13378520152</IdCodice>
+      </IdFiscaleIVA>
+      <CodiceFiscale>02517580920</CodiceFiscale>
+      <Anagrafica>
+        <Denominazione>Wind Tre S.p.A.</Denominazione>
+      </Anagrafica>
+      <RegimeFiscale>RF08</RegimeFiscale>
+    </DatiAnagrafici>
+    <Sede>
+      <Indirizzo>Largo Metropolitana</Indirizzo>
+      <NumeroCivico>5</NumeroCivico>
+      <CAP>20017</CAP>
+      <Comune>Rho</Comune>
+      <Provincia>MI</Provincia>
+      <Nazione>IT</Nazione>
+    </Sede>
+    <IscrizioneREA>
+      <Ufficio>MI</Ufficio>
+      <NumeroREA>02517580920</NumeroREA>
+      <CapitaleSociale>474303795.00</CapitaleSociale>
+      <SocioUnico>SU</SocioUnico>
+      <StatoLiquidazione>LN</StatoLiquidazione>
+    </IscrizioneREA>
+    <RiferimentoAmministrazione>P1105810222</RiferimentoAmministrazione>
+  </CedentePrestatore>
+  <CessionarioCommittente>
+    <DatiAnagrafici>
+      <IdFiscaleIVA>
+        <IdPaese>IT</IdPaese>
+        <IdCodice>05538860874</IdCodice>
+      </IdFiscaleIVA>
+      <Anagrafica>
+        <Denominazione>CREATION DOSE SRL</Denominazione>
+      </Anagrafica>
+    </DatiAnagrafici>
+    <Sede>
+      <Indirizzo>VIA GUSTAVO VAGLIASINDI</Indirizzo>
+      <NumeroCivico>70  </NumeroCivico>
+      <CAP>95125</CAP>
+      <Comune>CATANIA</Comune>
+      <Provincia>CT</Provincia>
+      <Nazione>IT</Nazione>
+    </Sede>
+  </CessionarioCommittente>
+</FatturaElettronicaHeader><FatturaElettronicaBody>
+  <DatiGenerali>
+    <DatiGeneraliDocumento>
+      <TipoDocumento>TD01</TipoDocumento>
+      <Divisa>EUR</Divisa>
+      <Data>2020-10-12</Data>
+      <Numero>W2027904073</Numero>
+      <ImportoTotaleDocumento>33.82</ImportoTotaleDocumento>
+      <Causale>Wind Tre S.p.A. con Socio Unico - Direzione e Coordinamento VIP - CKH Luxembourg S.à r.l.</Causale>
+      <Causale>Documento emesso ai sensi degli art. 21 DPR 633/1972 e 4 c. 1 DM. n. 366/2000. L'IVA è stata assolta, ai sensi dell'art. 74, comma 1, lettera d, DPR n. 633/1972, da Wind Tre S.p.A. - P.IVA 13378520152</Causale>
+    </DatiGeneraliDocumento>
+  </DatiGenerali>
+  <DatiBeniServizi>
+    <DettaglioLinee>
+      <NumeroLinea>1</NumeroLinea>
+      <Descrizione>Costo Professional Full dal 01/10/20 al 31/10/20</Descrizione>
+      <Quantita>1.00</Quantita>
+      <PrezzoUnitario>13.99</PrezzoUnitario>
+      <PrezzoTotale>13.99</PrezzoTotale>
+      <AliquotaIVA>22.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DettaglioLinee>
+      <NumeroLinea>2</NumeroLinea>
+      <Descrizione>Ricarica Automatica a soglia (5,00)</Descrizione>
+      <Quantita>1.00</Quantita>
+      <PrezzoUnitario>4.10</PrezzoUnitario>
+      <PrezzoTotale>4.10</PrezzoTotale>
+      <AliquotaIVA>22.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DettaglioLinee>
+      <NumeroLinea>3</NumeroLinea>
+      <Descrizione>Costo Professional Staff dal 01/10/20 al 31/10/20</Descrizione>
+      <Quantita>1.00</Quantita>
+      <PrezzoUnitario>7.99</PrezzoUnitario>
+      <PrezzoTotale>7.99</PrezzoTotale>
+      <AliquotaIVA>22.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DettaglioLinee>
+      <NumeroLinea>4</NumeroLinea>
+      <Descrizione>Costi e oneri di invio fattura</Descrizione>
+      <Quantita>1.00</Quantita>
+      <PrezzoUnitario>1.64</PrezzoUnitario>
+      <PrezzoTotale>1.64</PrezzoTotale>
+      <AliquotaIVA>22.00</AliquotaIVA>
+    </DettaglioLinee>
+    <DatiRiepilogo>
+      <AliquotaIVA>22.00</AliquotaIVA>
+      <ImponibileImporto>1.64</ImponibileImporto>
+      <Imposta>0.36</Imposta>
+      <EsigibilitaIVA>I</EsigibilitaIVA>
+      <RiferimentoNormativo>22% Aliquota Ordinaria - D.P.R. 633/72</RiferimentoNormativo>
+    </DatiRiepilogo>
+    <DatiRiepilogo>
+      <AliquotaIVA>22.00</AliquotaIVA>
+      <ImponibileImporto>26.08</ImponibileImporto>
+      <Imposta>5.74</Imposta>
+      <EsigibilitaIVA>I</EsigibilitaIVA>
+      <RiferimentoNormativo>IVA Art.74 c. 1 let. d DPR 633/72 assolta da Wind Tre P.IVA 13378520152</RiferimentoNormativo>
+    </DatiRiepilogo>
+  </DatiBeniServizi>
+  <DatiPagamento>
+    <CondizioniPagamento>TP02</CondizioniPagamento>
+    <DettaglioPagamento>
+      <ModalitaPagamento>MP20</ModalitaPagamento>
+      <DataScadenzaPagamento>2020-11-11</DataScadenzaPagamento>
+      <ImportoPagamento>33.82</ImportoPagamento>
+    </DettaglioPagamento>
+  </DatiPagamento>
+</FatturaElettronicaBody>
+</p:FatturaElettronica>
