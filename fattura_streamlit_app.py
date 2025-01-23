@@ -1,8 +1,8 @@
 import streamlit as st
 import json
-import subprocess
 import os
 import tempfile
+from fattura_elettronica_parser_advanced import InvoiceProcessor
 
 def process_fattura(uploaded_files):
     if not uploaded_files:
@@ -10,6 +10,8 @@ def process_fattura(uploaded_files):
 
     temp_dir = tempfile.TemporaryDirectory()
     input_paths = []
+    
+    # Salva i file caricati in directory temporanea
     for uploaded_file in uploaded_files:
         temp_file_path = os.path.join(temp_dir.name, uploaded_file.name)
         with open(temp_file_path, "wb") as temp_file:
@@ -17,30 +19,30 @@ def process_fattura(uploaded_files):
         input_paths.append(temp_file_path)
 
     try:
-        command = [
-            "python3",
-            "fattura_elettronica_parser_advanced.py",
-            *input_paths,
-            "-f", "json", # Output always JSON for Streamlit
-            "-o", os.path.join(temp_dir.name, "output") # Output to temp dir
-        ]
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
+        # Inizializza il processor
+        processor = InvoiceProcessor()
+        
+        # Elabora i file
+        valid, errors = processor.process_files(
+            input_paths,
+            output_format='json',
+            output_base=os.path.join(temp_dir.name, "output")
+        )
+        
+        # Leggi il risultato JSON
         output_json_path = os.path.join(temp_dir.name, "output.json")
         if os.path.exists(output_json_path):
             with open(output_json_path, "r", encoding="utf-8") as f:
                 json_output = json.load(f)
             return json_output, None
         else:
-            return None, "File JSON di output non trovato."
+            return None, f"File JSON di output non trovato. Elaborati {valid} file con successo e {errors} errori."
 
-    except subprocess.CalledProcessError as e:
-        error_message = f"Errore durante l'esecuzione dello script:\n{e.stderr}"
-        return None, error_message
     except Exception as e:
         error_message = f"Errore imprevisto:\n{str(e)}"
         return None, error_message
     finally:
-        temp_dir.cleanup() # Clean up temporary directory
+        temp_dir.cleanup()  # Pulisci la directory temporanea
 
 
 st.title("Estrattore Fatture Elettroniche Italiane")
