@@ -91,7 +91,7 @@ class InvoiceProcessor:
         failed_invoices = [r for r in results if r['status'] == 'error']
         
         self.generate_output(valid_invoices, output_format)
-        self.generate_error_report(failed_invoices)
+        self.generate_error_report(failed_invoices, output_base)
         return len(valid_invoices), len(failed_invoices)
 
     def process_single(self, xml_path):
@@ -338,13 +338,13 @@ class InvoiceProcessor:
         metrics_df.to_csv(metrics_file, index=False, encoding='utf-8')
         logging.info(f"Metriche salvate in: {metrics_file}")
 
-    def generate_error_report(self, failed_invoices):
+    def generate_error_report(self, failed_invoices, output_base='output'):
         """Genera report dettagliato degli errori"""
         if not failed_invoices:
             logging.info("Nessun errore riscontrato durante l'elaborazione.")
             return
 
-        error_file = f"{args.output}_errors.log"
+        error_file = f"{output_base}_errors.log"
         with open(error_file, 'w', encoding='utf-8') as f:
             for error_invoice in failed_invoices:
                 f.write(f"File: {error_invoice['file']}\n")
