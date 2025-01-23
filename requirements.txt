@@ -1,6 +1,4 @@
 streamlit
-    lxml
+    defusedxml
     pandas
     PyYAML
-
-    # Forza reinstallazione dipendenze su Streamlit Cloud

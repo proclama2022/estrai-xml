@@ -9,6 +9,7 @@ import zipfile
 import tempfile
 from datetime import datetime
 from collections import defaultdict
+from defusedxml.ElementTree import parse as safe_parse
 import xml.etree.ElementTree as ET
 import pandas as pd
 import yaml
