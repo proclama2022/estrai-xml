@@ -9,7 +9,7 @@ import zipfile
 import tempfile
 from datetime import datetime
 from collections import defaultdict
-from lxml import etree
+import xml.etree.ElementTree as ET
 import pandas as pd
 import yaml
 
@@ -24,7 +24,7 @@ CONFIG = {
     'error_recovery': {
         'common_issues': {
             'encoding': ['iso-8859-15', 'windows-1252'],
-            'malformed_tags': ['&amp;', '&apos;']
+            'malformed_tags': ['&', '<']
         }
     },
     'data_normalization': {
@@ -100,7 +100,7 @@ class InvoiceProcessor:
             xml_data = self.preprocess_xml(xml_path)
             
             # Parsing e normalizzazione
-            root = etree.fromstring(xml_data)
+            root = ET.fromstring(xml_data)
             invoice_data = self.parse_xml(root)
             normalized_data = self.normalize_data(invoice_data)
             
@@ -179,7 +179,7 @@ class InvoiceProcessor:
 
     def extract_party_data(self, root, xpath, ns_map):
         """Estrazione dati anagrafici generici"""
-        party = root.xpath(xpath)
+        party = root.findall(xpath)
         if not party:
             return {}
             
@@ -208,7 +208,7 @@ class InvoiceProcessor:
     def parse_line_items(self, root, ns_map):
         """Estrazione righe dettaglio"""
         return [self.parse_line(line, ns_map) 
-                for line in root.xpath('//*[local-name()="FatturaElettronicaBody"]/*[local-name()="DatiBeniServizi"]/*[local-name()="DettaglioLinee"]')]
+                for line in root.findall('//*[local-name()="FatturaElettronicaBody"]/*[local-name()="DatiBeniServizi"]/*[local-name()="DettaglioLinee"]')]
 
     def parse_line(self, line, ns_map):
         """Parsing singola riga"""
@@ -232,8 +232,8 @@ class InvoiceProcessor:
     def xpath_text(self, element, xpath, ns_map):
         """Estrazione testo da elemento XML via XPath con namespace"""
         try:
-            return element.xpath(xpath)[0].text.strip()
-        except IndexError:
+            return element.find(xpath).text.strip()
+        except (IndexError, AttributeError):
             return ''
 
     def parse_float(self, value):
