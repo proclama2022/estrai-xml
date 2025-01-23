@@ -97,11 +97,7 @@ class InvoiceProcessor:
     def process_single(self, xml_path):
         """Elaborazione singolo file con recovery avanzato"""
         try:
-            # Preprocessing e validazione
-            xml_data = self.preprocess_xml(xml_path)
-            
-            # Parsing e normalizzazione
-            # Per defusedxml, dobbiamo usare il percorso del file direttamente
+            # Parsing diretto del file con defusedxml
             root = safe_parse(xml_path).getroot()
             invoice_data = self.parse_xml(root)
             normalized_data = self.normalize_data(invoice_data)
@@ -320,13 +316,11 @@ class InvoiceProcessor:
                 return date_value
         return date_value
 
-    def generate_output(self, invoices, output_format):
+    def generate_output(self, invoices, output_format, output_base='output'):
         """Generazione output in formato JSON o CSV"""
         if not invoices:
             logging.warning("Nessuna fattura valida da salvare.")
             return
-
-        output_base = args.output
         if output_format == 'json':
             output_file = f"{output_base}.json"
             with open(output_file, 'w', encoding='utf-8') as f:
